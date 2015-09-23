@@ -1,0 +1,5 @@
+package com.gollahalli.main;
+
+public enum DBType {
+	HSQLDB, MYSQL
+}

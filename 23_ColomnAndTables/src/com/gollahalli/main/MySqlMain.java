@@ -1,0 +1,57 @@
+package com.gollahalli.main;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+
+public class MySqlMain {
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection conn = ConnectionManager.getInstance().getConnection();
+		ResultSet rsTables = null;
+		ResultSet rsColumns = null;
+		ArrayList<String> tables = new ArrayList<>();
+		
+		try {
+			DatabaseMetaData metadata = conn.getMetaData();
+			String[] tableTypes = {"TABLE"};
+			rsTables = metadata.getTables(null, "%", "%", tableTypes);
+			while (rsTables.next()) {
+				tables.add(rsTables.getString("TABLE_NAME"));
+			}
+			
+			for (String tableName : tables) {
+				System.out.println("Tables: " + tableName);
+				System.out.println("-----------------");
+				
+				rsColumns = metadata.getColumns(null, "%", tableName, "%");
+				
+				while (rsColumns.next()) {
+					StringBuffer buffer = new StringBuffer();
+					buffer.append(rsColumns.getString("COLUMN_NAME"));
+					buffer.append(": ");
+					buffer.append(rsColumns.getString("TYPE_NAME"));
+					System.out.println(buffer.toString());
+				}
+				
+				
+				System.out.println("");
+			}
+			
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			rsTables.close();
+			rsColumns.close();
+		}
+		
+		
+		
+		ConnectionManager.getInstance().close();
+	}
+
+}
