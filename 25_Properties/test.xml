@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>test xml</comment>
+<entry key="Name">test name</entry>
+<entry key="CompanyName">test</entry>
+<entry key="ContactNumber">1234567</entry>
+<entry key="Address">some address</entry>
+</properties>
